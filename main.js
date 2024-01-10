@@ -23,55 +23,111 @@
 
 // gpt1
 // GSAP ScrollTrigger 설정
-gsap.registerPlugin(ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
 
-// main 섹션의 top 부분을 기준으로 스크롤 애니메이션 설정
-const mainSection = document.querySelector(".main");
-const footerSection = document.querySelector(".footer");
-const container = document.querySelector(".container");
+// // main 섹션의 top 부분을 기준으로 스크롤 애니메이션 설정
+// const mainSection = document.querySelector(".main");
+// const footerSection = document.querySelector(".footer");
+// const container = document.querySelector(".container");
 
-// main 섹션의 높이를 고려하여 ScrollTrigger 설정
-const mainTrigger = {
-  trigger: ".main",
-  start: "top top",
-  endTrigger: ".footer",
-  end: "top top",
-  pin: true, // top에 도달하면 고정
-  pinSpacing: false, // 고정된 상태에서의 간격 없음
-  markers: true, // 테스트를 위한 마커 표시
-};
+// // main 섹션의 높이를 고려하여 ScrollTrigger 설정
+// const mainTrigger = {
+//   trigger: ".main",
+//   start: "top top",
+//   endTrigger: ".footer",
+//   end: "top top",
+//   pin: true, // top에 도달하면 고정
+//   pinSpacing: false, // 고정된 상태에서의 간격 없음
+//   markers: true, // 테스트를 위한 마커 표시
+// };
 
-ScrollTrigger.create(mainTrigger);
+// ScrollTrigger.create(mainTrigger);
 
-// .filled-text, .outline-text, .image 애니메이션 설정
-const textElements = document.querySelectorAll(
-  ".filled-text, .outline-text, .image"
-);
+// // .filled-text, .outline-text, .image 애니메이션 설정
+// const textElements = document.querySelectorAll(
+//   ".filled-text, .outline-text, .image"
+// );
 
-textElements.forEach(function (element) {
-  gsap.to(element, {
+// textElements.forEach(function (element) {
+//   gsap.to(element, {
+//     scrollTrigger: {
+//       trigger: ".main",
+//       start: "top top",
+//       end: "bottom top",
+//       scrub: true,
+//     },
+//     x: function () {
+//       return element.classList.contains("image") ? -3300 : 3500;
+//     },
+//   });
+// });
+
+// // main 섹션의 고정이 끝난 후 footer 섹션으로 스크롤 애니메이션 설정
+// gsap.to(container, {
+//   scrollTrigger: {
+//     trigger: ".main",
+//     start: "top top",
+//     end: "bottom top",
+//     scrub: 1,
+//     onLeave: () => {
+//       ScrollTrigger.getById("main-trigger").kill(); // main 섹션의 ScrollTrigger 제거
+//       window.scrollTo(0, footerSection.offsetTop); // footer 섹션으로 스크롤
+//     },
+//   },
+// });
+
+document.addEventListener("DOMContentLoaded", function () {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mainSection = document.querySelector(".main");
+  const container = document.querySelector(".container");
+  const filledText = document.querySelector(".filled-text");
+  const outlineText = document.querySelector(".outline-text");
+  const image = document.querySelector(".image");
+
+  gsap.to(mainSection, {
+    scrollTrigger: {
+      trigger: ".main",
+      start: "top top",
+      endTrigger: ".main",
+      end: "top top",
+      pin: true,
+      pinSpacing: false,
+      scrub: true,
+      markers: false,
+    },
+  });
+
+  gsap.to(filledText, {
+    x: "500%",
     scrollTrigger: {
       trigger: ".main",
       start: "top top",
       end: "bottom top",
+      pin: true,
       scrub: true,
     },
-    x: function () {
-      return element.classList.contains("image") ? -3300 : 3500;
+  });
+
+  gsap.to(outlineText, {
+    x: "500%",
+    scrollTrigger: {
+      trigger: ".main",
+      start: "top top",
+      end: "bottom top",
+      pin: true,
+      scrub: true,
     },
   });
-});
 
-// main 섹션의 고정이 끝난 후 footer 섹션으로 스크롤 애니메이션 설정
-gsap.to(container, {
-  scrollTrigger: {
-    trigger: ".main",
-    start: "top top",
-    end: "bottom top",
-    scrub: 1,
-    onLeave: () => {
-      ScrollTrigger.getById("main-trigger").kill(); // main 섹션의 ScrollTrigger 제거
-      window.scrollTo(0, footerSection.offsetTop); // footer 섹션으로 스크롤
+  gsap.to(image, {
+    x: "-550%",
+    scrollTrigger: {
+      trigger: ".main",
+      start: "top top",
+      end: "bottom top",
+      pin: true,
+      scrub: true,
     },
-  },
+  });
 });
